@@ -4,14 +4,13 @@ from pydantic import EmailStr
 from typing import Optional, Annotated
 from datetime import datetime
 
-# Configure Oracle database connection details
 DATABASE_URL = "postgresql+psycopg://aneeq:aneeqtahir@localhost:5432/aneeqdb"
 engine = create_engine(DATABASE_URL, echo=True)
 
 
 def get_session():
     with Session(engine) as session:
-        return session
+        yield session
 
 
 session_type = Annotated[Session, Depends(get_session)]

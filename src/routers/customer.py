@@ -6,7 +6,7 @@ from typing import List
 router = APIRouter()
 
 
-@router.post("/customers/", response_model=Customer)
+@router.post("/customer", response_model=Customer)
 async def create_customer(customer: Customer, session: session_type):
     try:
         session.add(customer)
@@ -18,7 +18,7 @@ async def create_customer(customer: Customer, session: session_type):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/customers/", response_model=List[Customer])
+@router.get("/customer", response_model=List[Customer])
 async def read_customers(session: session_type):
     try:
         customers = session.exec(select(Customer)).all()
@@ -27,7 +27,7 @@ async def read_customers(session: session_type):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.put("/customers/{customer_id}", response_model=Customer)
+@router.put("/customer/{customer_id}", response_model=Customer)
 async def update_customer(customer_id: int, customer: Customer, session: session_type):
     try:
         db_customer = session.exec(
@@ -49,7 +49,7 @@ async def update_customer(customer_id: int, customer: Customer, session: session
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/customers/{customer_id}")
+@router.delete("/customer/{customer_id}")
 async def delete_customer(customer_id: int, session: session_type):
     try:
         customer = session.exec(
